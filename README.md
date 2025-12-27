@@ -133,10 +133,13 @@ iwctl
 > [!CAUTION]
 > Следующие команды **УДАЛЯТ ВСЕ ДАННЫЕ** на диске! Убедись что выбрал правильный диск!
 
+
 ```bash
 # Переходим в root (все следующие команды требуют root!)
 sudo -i
+```
 
+```bash
 # Определи диск (обычно nvme0n1 для NVMe SSD)
 lsblk
 fdisk -l
@@ -298,33 +301,60 @@ swapon /mnt/swap/swapfile
 nixos-generate-config --root /mnt
 ```
 
-### 10. Клонирование этого репозитория
+> [!NOTE]
+> Эта команда создаст `/mnt/etc/nixos/hardware-configuration.nix` — специфичную для твоего железа конфигурацию.
 
+---
+
+### 10. Клонирование репозитория
+
+> [!IMPORTANT]
+> **nix-shell** — это временное окружение с нужными программами. Git не установлен в live USB по умолчанию, поэтому мы запускаем его через nix-shell.
+
+**Шаг 10.1: Удаляем старую папку (там только hardware-configuration.nix)**
 ```bash
-# Запускаем shell с git (git недоступен в live USB по умолчанию)
+rm -rf /mnt/etc/nixos
+```
+
+**Шаг 10.2: Запускаем nix-shell с git**
+```bash
 nix-shell -p git
+```
 
-# Теперь внутри nix-shell клонируем репозиторий
-git clone https://github.com/YOUR_USERNAME/nixos.git /mnt/etc/nixos
+> После этой команды ты попадёшь внутрь nix-shell — prompt изменится на `[nix-shell:~]#`
 
-# Копируем сгенерированный hardware-configuration.nix
-cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/matebook/hardware.nix
+**Шаг 10.3: Клонируем репозиторий (выполняем ВНУТРИ nix-shell)**
+```bash
+git clone https://github.com/Sav231189/nixos.git /mnt/etc/nixos
+```
 
-# Выходим из nix-shell (ctrl + d)
+**Шаг 10.4: Выходим из nix-shell**
+```bash
 exit
 ```
 
+> Или нажми `Ctrl+D`
+
+---
+
+### 10.5. Копируем hardware-configuration.nix
+
+```bash
+nixos-generate-config --root /mnt --show-hardware-config > /mnt/etc/nixos/hosts/matebook/hardware.nix
+```
+
 > [!TIP]
-> Если у тебя нет репозитория на GitHub, можно скопировать файлы с флешки:
+> **Альтернатива с флешки** (если нет интернета):
 > ```bash
 > cp -r /run/media/nixos/ФЛЕШКА/nixos/* /mnt/etc/nixos/
 > ```
 
+---
+
 ### 11. Установка
 
 ```bash
-cd /mnt/etc/nixos
-nixos-install --flake .#matebook
+nixos-install --flake /mnt/etc/nixos#matebook
 ```
 
 ### 12. Установка пароля и перезагрузка
