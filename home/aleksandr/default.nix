@@ -45,18 +45,21 @@
     TERMINAL = "kitty";
   };
 
-  # XDG directories
+  # XDG directories (minimal set)
   xdg = {
     enable = true;
     userDirs = {
       enable = true;
       createDirectories = true;
-      desktop = "${config.home.homeDirectory}/Desktop";
-      documents = "${config.home.homeDirectory}/Documents";
-      download = "${config.home.homeDirectory}/Downloads";
-      music = "${config.home.homeDirectory}/Music";
-      pictures = "${config.home.homeDirectory}/Pictures";
-      videos = "${config.home.homeDirectory}/Videos";
+      desktop = "${config.home.homeDirectory}/desktop";
+      documents = "${config.home.homeDirectory}/documents";
+      download = "${config.home.homeDirectory}/downloads";
+      # Disable others by pointing to home
+      music = "${config.home.homeDirectory}";
+      pictures = "${config.home.homeDirectory}";
+      videos = "${config.home.homeDirectory}";
+      publicShare = "${config.home.homeDirectory}";
+      templates = "${config.home.homeDirectory}";
     };
   };
 
