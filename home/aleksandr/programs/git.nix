@@ -71,8 +71,8 @@
       };
     };
     
-    # Aliases (renamed from 'aliases' to 'alias' in 2025)
-    alias = {
+    # Aliases
+    aliases = {
       st = "status";
       co = "checkout";
       br = "branch";
