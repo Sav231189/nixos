@@ -23,14 +23,11 @@
     
     packages = with pkgs; [
       # Nerd Fonts (icons + programming fonts)
-      (nerdfonts.override {
-        fonts = [
-          "JetBrainsMono"
-          "FiraCode"
-          "Hack"
-          "CascadiaCode"
-        ];
-      })
+      # В nixpkgs-unstable используется новый формат nerd-fonts
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.fira-code
+      nerd-fonts.hack
+      nerd-fonts.caskaydia-cove  # CascadiaCode в nerd-fonts
       
       # System fonts
       inter              # Modern UI font
