@@ -23,11 +23,11 @@
   programs.git = {
     enable = true;
     
-    userName = "Aleksandr";
-    # userEmail = "your@email.com";  # TODO: Set your email!
-    
-    # Default branch
-    extraConfig = {
+    # Settings (new syntax for 2025 - replaces userName, extraConfig)
+    settings = {
+      user.name = "Aleksandr";
+      # user.email = "your@email.com";  # TODO: Set your email!
+      
       init.defaultBranch = "main";
       
       # Better diffs
@@ -52,10 +52,21 @@
       rebase.autoStash = true;
       
       # URL shortcuts
-      url = {
-        "git@github.com:" = {
-          insteadOf = "gh:";
-        };
+      "url \"git@github.com:\"".insteadOf = "gh:";
+      
+      # Aliases (inside settings)
+      alias = {
+        st = "status";
+        co = "checkout";
+        br = "branch";
+        ci = "commit";
+        unstage = "reset HEAD --";
+        last = "log -1 HEAD";
+        lg = "log --oneline --graph --decorate --all";
+        aa = "add --all";
+        cm = "commit -m";
+        amend = "commit --amend --no-edit";
+        undo = "reset --soft HEAD~1";
       };
     };
     
@@ -67,24 +78,9 @@
         light = false;
         side-by-side = true;
         line-numbers = true;
-        syntax-theme = "Catppuccin-mocha";
       };
     };
     
-    # Aliases
-    aliases = {
-      st = "status";
-      co = "checkout";
-      br = "branch";
-      ci = "commit";
-      unstage = "reset HEAD --";
-      last = "log -1 HEAD";
-      lg = "log --oneline --graph --decorate --all";
-      aa = "add --all";
-      cm = "commit -m";
-      amend = "commit --amend --no-edit";
-      undo = "reset --soft HEAD~1";
-    };
     
     # Ignores
     ignores = [

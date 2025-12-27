@@ -26,7 +26,7 @@
   # XDG Portal for Wayland
   xdg.portal = {
     enable = true;
-    wlr.enable = true;
+    # wlr.enable removed - conflicts with xdg-desktop-portal-hyprland
     extraPortals = [
       pkgs.xdg-desktop-portal-hyprland
       pkgs.xdg-desktop-portal-gtk
