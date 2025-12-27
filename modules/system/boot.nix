@@ -26,17 +26,13 @@
     timeout = 3;
   };
 
-  # LUKS encryption
-  # ВАЖНО: Если не работает, проверь UUID в hardware.nix
-  # Можно использовать: /dev/disk/by-uuid/YOUR-UUID или /dev/nvme0n1p2
-  boot.initrd.luks.devices = {
-    "cryptroot" = {
-      # Используем раздел напрямую (hardware.nix содержит точный UUID)
-      device = "/dev/nvme0n1p2";
-      preLVM = true;
-      allowDiscards = true;  # Enable TRIM for SSD
-      bypassWorkqueues = true;  # Better SSD performance
-    };
+  # LUKS encryption options
+  # ВАЖНО: Само устройство (device) определено в hardware.nix!
+  # Здесь только дополнительные опции для производительности SSD
+  boot.initrd.luks.devices."cryptroot" = {
+    preLVM = true;
+    allowDiscards = true;  # Enable TRIM for SSD
+    bypassWorkqueues = true;  # Better SSD performance
   };
 
   # Kernel
