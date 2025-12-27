@@ -67,6 +67,7 @@
         cm = "commit -m";
         amend = "commit --amend --no-edit";
         undo = "reset --soft HEAD~1";
+      };
     };
     
     # Ignores
