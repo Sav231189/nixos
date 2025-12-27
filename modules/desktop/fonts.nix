@@ -33,7 +33,7 @@
       inter              # Modern UI font
       roboto             # Google's font
       noto-fonts         # Unicode coverage
-      noto-fonts-emoji   # Emoji
+      noto-fonts-color-emoji   # Emoji (renamed from noto-fonts-emoji)
       noto-fonts-cjk-sans # Chinese/Japanese/Korean
       
       # Code fonts
