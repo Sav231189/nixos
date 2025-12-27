@@ -67,20 +67,7 @@
         cm = "commit -m";
         amend = "commit --amend --no-edit";
         undo = "reset --soft HEAD~1";
-      };
     };
-    
-    # Delta for better diffs
-    delta = {
-      enable = true;
-      options = {
-        navigate = true;
-        light = false;
-        side-by-side = true;
-        line-numbers = true;
-      };
-    };
-    
     
     # Ignores
     ignores = [
@@ -146,6 +133,18 @@
     settings = {
       git_protocol = "ssh";
       prompt = "enabled";
+    };
+  };
+
+  # Delta for better diffs (separate module, not under programs.git)
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+      light = false;
+      side-by-side = true;
+      line-numbers = true;
     };
   };
 }
