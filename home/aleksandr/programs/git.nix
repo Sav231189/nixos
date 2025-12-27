@@ -73,7 +73,6 @@
     # Delta for better diffs
     delta = {
       enable = true;
-      enableGitIntegration = true;  # Required explicitly in 2025
       options = {
         navigate = true;
         light = false;
