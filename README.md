@@ -295,59 +295,46 @@ mkswap /mnt/swap/swapfile
 swapon /mnt/swap/swapfile
 ```
 
-### 9. Генерация базовой конфигурации
-
-```bash
-nixos-generate-config --root /mnt
-```
-
-> [!NOTE]
-> Эта команда создаст `/mnt/etc/nixos/hardware-configuration.nix` — специфичную для твоего железа конфигурацию.
-
----
-
-### 10. Клонирование репозитория
+### 9. Клонирование репозитория
 
 > [!IMPORTANT]
 > **nix-shell** — это временное окружение с нужными программами. Git не установлен в live USB по умолчанию, поэтому мы запускаем его через nix-shell.
 
-**Шаг 10.1: Удаляем старую папку (там только hardware-configuration.nix)**
-```bash
-rm -rf /mnt/etc/nixos
-```
-
-**Шаг 10.2: Запускаем nix-shell с git**
+**Шаг 9.1: Запускаем nix-shell с git**
 ```bash
 nix-shell -p git
 ```
 
 > После этой команды ты попадёшь внутрь nix-shell — prompt изменится на `[nix-shell:~]#`
 
-**Шаг 10.3: Клонируем репозиторий (выполняем ВНУТРИ nix-shell)**
+**Шаг 9.2: Клонируем репозиторий (выполняем ВНУТРИ nix-shell)**
 ```bash
-git clone https://github.com/Sav231189/nixos.git /mnt/etc/nixos
+git clone https://github.com/YOUR_USERNAME/nixos.git /mnt/etc/nixos
 ```
 
-**Шаг 10.4: Выходим из nix-shell**
+**Шаг 9.3: Выходим из nix-shell**
 ```bash
 exit
 ```
 
 > Или нажми `Ctrl+D`
 
----
-
-### 10.5. Копируем hardware-configuration.nix
-
-```bash
-nixos-generate-config --root /mnt --show-hardware-config > /mnt/etc/nixos/hosts/matebook/hardware.nix
-```
-
 > [!TIP]
 > **Альтернатива с флешки** (если нет интернета):
 > ```bash
 > cp -r /run/media/nixos/ФЛЕШКА/nixos/* /mnt/etc/nixos/
 > ```
+
+---
+
+### 10. Генерация hardware-configuration.nix
+
+```bash
+nixos-generate-config --root /mnt --show-hardware-config > /mnt/etc/nixos/hosts/matebook/hardware.nix
+```
+
+> [!NOTE]
+> Эта команда определит твоё железо и сохранит конфиг напрямую в нужное место.
 
 ---
 
