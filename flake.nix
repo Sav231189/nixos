@@ -38,16 +38,13 @@
 
   outputs = { self, nixpkgs, home-manager, impermanence, hyprland, ... }@inputs:
   let
-    system = "x86_64-linux";
-    
     # Custom lib with helper functions
     lib = nixpkgs.lib;
   in
   {
     nixosConfigurations = {
       matebook = lib.nixosSystem {
-        inherit system;
-        
+        # Use pkgs.stdenv.hostPlatform.system instead of deprecated 'system'
         specialArgs = { inherit inputs; };
         
         modules = [
