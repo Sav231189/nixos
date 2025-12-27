@@ -120,8 +120,8 @@
       cp = "cp -i";
     };
 
-    # Init extra (runs after plugins)
-    initExtra = ''
+    # Init content (runs after plugins) - replaces deprecated initExtra
+    initContent = ''
       # Vi mode
       bindkey -v
       

@@ -21,8 +21,8 @@
 { config, lib, pkgs, ... }:
 
 {
-  # Disable PulseAudio
-  hardware.pulseaudio.enable = false;
+  # Disable PulseAudio (updated syntax for 2025)
+  services.pulseaudio.enable = false;
   
   # Enable PipeWire
   security.rtkit.enable = true;  # Realtime scheduling

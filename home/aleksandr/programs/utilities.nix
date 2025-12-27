@@ -67,21 +67,12 @@
   programs.bat = {
     enable = true;
     config = {
-      theme = "Catppuccin-mocha";
+      # Using built-in theme (custom theme URL is 404)
+      theme = "base16";
       pager = "less -FR";
       style = "numbers,changes,header";
     };
-    themes = {
-      Catppuccin-mocha = {
-        src = pkgs.fetchFromGitHub {
-          owner = "catppuccin";
-          repo = "bat";
-          rev = "d714cc1d358ea51bfc02550f6b8f5f6f";
-          sha256 = "sha256-Q5B4NDrfCIK3UAMs94vdXnR42k4AXCqZz6sRn8bzmf4=";
-        };
-        file = "themes/Catppuccin Mocha.tmTheme";
-      };
-    };
+    # themes removed - catppuccin repo structure changed
   };
 
   # Eza configuration (ls replacement)

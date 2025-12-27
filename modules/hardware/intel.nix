@@ -45,11 +45,11 @@
   # Backlight control
   programs.light.enable = true;
   
-  # Lid switch behavior
-  services.logind = {
-    lidSwitch = "suspend";
-    lidSwitchExternalPower = "lock";
-    powerKey = "suspend";
+  # Lid switch behavior (updated syntax for 2025)
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "lock";
+    HandlePowerKey = "suspend";
   };
 
   # Touchpad
