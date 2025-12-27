@@ -116,11 +116,8 @@
       ];
     };
 
-    "/boot" = {
-      device = "/dev/disk/by-label/BOOT";
-      fsType = "vfat";
-      options = [ "fmask=0077" "dmask=0077" ];
-    };
+    # ВАЖНО: /boot определён в hardware.nix с правильным UUID!
+    # Не дублируем здесь, иначе будет конфликт.
   };
 
   # Swap configuration
