@@ -143,7 +143,7 @@ fdisk -l
 
 | № | Раздел | Размер | Тип | ФС | Метка | Точка монтирования |
 |---|--------|--------|-----|-----|-------|-------------------|
-| 1 | `/dev/nvme0n1p1` | 512 MB | EFI System | FAT32 | `BOOT` | `/boot` |
+| 1 | `/dev/nvme0n1p1` | 1 GB | EFI System | FAT32 | `BOOT` | `/boot` |
 | 2 | `/dev/nvme0n1p2` | ~999 GB | Linux filesystem | LUKS2 → BTRFS | `nixos` | (subvolumes) |
 
 #### Создание разделов
@@ -153,16 +153,16 @@ fdisk -l
 parted /dev/nvme0n1 -- mklabel gpt
 
 # Раздел 1: EFI System Partition (ESP)
-# - Размер: 512MB
+# - Размер: 1GB (с запасом для нескольких ядер)
 # - Тип: ESP (EFI System Partition)
 # - Файловая система: FAT32
-parted /dev/nvme0n1 -- mkpart ESP fat32 1MiB 513MiB
+parted /dev/nvme0n1 -- mkpart ESP fat32 1MiB 1025MiB
 parted /dev/nvme0n1 -- set 1 esp on
 
 # Раздел 2: Основной раздел для LUKS + BTRFS
 # - Размер: оставшееся место (~999GB)
 # - Будет зашифрован LUKS2
-parted /dev/nvme0n1 -- mkpart primary 513MiB 100%
+parted /dev/nvme0n1 -- mkpart primary 1025MiB 100%
 
 # Проверяем результат
 lsblk /dev/nvme0n1
@@ -172,7 +172,7 @@ lsblk /dev/nvme0n1
 ```
 NAME        SIZE  TYPE
 nvme0n1     1TB   disk
-├─nvme0n1p1 512M  part  # ESP
+├─nvme0n1p1 1G    part  # ESP
 └─nvme0n1p2 999G  part  # LUKS + BTRFS
 ```
 
