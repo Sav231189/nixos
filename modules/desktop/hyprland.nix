@@ -24,11 +24,10 @@
   };
 
   # XDG Portal for Wayland
+  # NOTE: xdg-desktop-portal-hyprland is added automatically by Hyprland flake
   xdg.portal = {
     enable = true;
-    # wlr.enable removed - conflicts with xdg-desktop-portal-hyprland
     extraPortals = [
-      pkgs.xdg-desktop-portal-hyprland
       pkgs.xdg-desktop-portal-gtk
     ];
   };
