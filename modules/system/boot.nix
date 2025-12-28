@@ -43,6 +43,10 @@
     "quiet"
     "splash"
     "mitigations=auto"
+    # Intel WiFi AX211 stability fixes
+    "iwlwifi.power_save=0"
+    "iwlwifi.uapsd_disable=1"
+    "iwlmvm.power_scheme=1"
   ];
 
   # Plymouth for boot splash (optional but pretty)
@@ -57,4 +61,7 @@
   # Silent boot
   boot.consoleLogLevel = 0;
   boot.initrd.verbose = false;
+
+  # Intel WiFi firmware
+  hardware.firmware = [ pkgs.linux-firmware ];
 }

@@ -21,7 +21,7 @@
   # NetworkManager for WiFi and network management
   networking.networkmanager = {
     enable = true;
-    wifi.powersave = true;
+    wifi.powersave = false;  # Disabled for Intel AX211 stability
   };
 
   # Disable wpa_supplicant (NetworkManager handles WiFi)
