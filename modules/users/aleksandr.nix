@@ -33,14 +33,12 @@
     # Default shell
     shell = pkgs.zsh;
     
-    # No password for aleksandr - uses autologin with greetd
-    # This allows passwordless login to Hyprland
-    initialHashedPassword = "";
+    # Password is set during nixos-install (it asks for user password)
+    # or manually with: nixos-enter --root /mnt -c 'passwd aleksandr'
   };
 
-  # Root password - needed for emergency mode and sudo
-  # This gets asked during nixos-install
-  users.users.root.initialPassword = "root";
+  # Disable root login completely - use sudo instead
+  users.users.root.hashedPassword = "!";  # Locked account
 
   # Enable zsh system-wide
   programs.zsh.enable = true;
