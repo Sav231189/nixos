@@ -33,12 +33,14 @@
     # Default shell
     shell = pkgs.zsh;
     
-    # Initial password - CHANGE AFTER FIRST LOGIN with `passwd`
-    initialPassword = "changeme";
+    # No password for aleksandr - uses autologin with greetd
+    # This allows passwordless login to Hyprland
+    initialHashedPassword = "";
   };
 
-  # Root password - without this, emergency mode won't work
-  users.users.root.initialPassword = "changeme";
+  # Root password - needed for emergency mode and sudo
+  # This gets asked during nixos-install
+  users.users.root.initialPassword = "root";
 
   # Enable zsh system-wide
   programs.zsh.enable = true;
