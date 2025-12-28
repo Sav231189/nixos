@@ -33,8 +33,7 @@
     # Default shell
     shell = pkgs.zsh;
     
-    # Password: changeme (hashed with openssl passwd -6)
-    hashedPassword = "$6$rounds=500000$salt$hashed";  # placeholder - set via passwd after install
+    # Password: changeme - user should change after first login
     initialPassword = "changeme";
   };
 
