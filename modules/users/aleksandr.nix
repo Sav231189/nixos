@@ -33,12 +33,11 @@
     # Default shell
     shell = pkgs.zsh;
     
-    # Password is set during nixos-install (it asks for user password)
-    # or manually with: nixos-enter --root /mnt -c 'passwd aleksandr'
+    # Password is set during nixos-install
   };
 
-  # Disable root login completely - use sudo instead
-  users.users.root.hashedPassword = "!";  # Locked account
+  # Root needs a password for emergency mode access
+  users.users.root.initialPassword = "root";
 
   # Enable zsh system-wide
   programs.zsh.enable = true;

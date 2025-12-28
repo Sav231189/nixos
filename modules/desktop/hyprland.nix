@@ -115,30 +115,19 @@
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
 
-  # Auto-login to Hyprland with greetd
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
-        user = "greeter";
-      };
-      # Auto-login for aleksandr
-      initial_session = {
-        command = "Hyprland";
-        user = "aleksandr";
-      };
-    };
-  };
-
-  # Prevent getty on tty1 (greetd uses it)
-  systemd.services.greetd.serviceConfig = {
-    Type = "idle";
-    StandardInput = "tty";
-    StandardOutput = "tty";
-    StandardError = "journal";
-    TTYReset = true;
-    TTYVHangup = true;
-    TTYVTDisallocate = true;
-  };
+  # NOTE: greetd temporarily disabled for debugging
+  # After first successful boot, uncomment to enable auto-login
+  # services.greetd = {
+  #   enable = true;
+  #   settings = {
+  #     default_session = {
+  #       command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+  #       user = "greeter";
+  #     };
+  #     initial_session = {
+  #       command = "Hyprland";
+  #       user = "aleksandr";
+  #     };
+  #   };
+  # };
 }
