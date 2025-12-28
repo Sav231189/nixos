@@ -26,10 +26,10 @@
     timeout = 3;
   };
 
-  # LUKS encryption options
-  # ВАЖНО: Само устройство (device) определено в hardware.nix!
-  # Здесь только дополнительные опции для производительности SSD
+  # LUKS encryption
+  # Device path - adjust if your partition is different
   boot.initrd.luks.devices."cryptroot" = {
+    device = "/dev/nvme0n1p2";  # Main encrypted partition
     preLVM = true;
     allowDiscards = true;  # Enable TRIM for SSD
     bypassWorkqueues = true;  # Better SSD performance
