@@ -13,24 +13,20 @@
 # ║  УСТАНОВЛЕННЫЕ ПРОГРАММЫ:                                                    ║
 # ║  waybar, wofi, dunst, hyprpaper, hyprlock, grim, slurp, swappy              ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  # Enable Hyprland
-  # Official wiki: https://wiki.hyprland.org/Nix/Hyprland-on-NixOS/
+  # Enable Hyprland from nixpkgs (stable, no cachix issues)
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    # Make sure portal package is in sync with Hyprland
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     xwayland.enable = true;
   };
 
   # XDG Portal for Wayland
-  # NOTE: xdg-desktop-portal-hyprland is added automatically by Hyprland flake
   xdg.portal = {
     enable = true;
     extraPortals = [
+      pkgs.xdg-desktop-portal-hyprland
       pkgs.xdg-desktop-portal-gtk
     ];
   };

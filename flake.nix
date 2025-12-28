@@ -32,19 +32,16 @@
     # Impermanence
     impermanence.url = "github:nix-community/impermanence";
 
-    # Hyprland
-    hyprland.url = "github:hyprwm/Hyprland";
+    # NOTE: Hyprland flake removed - using nixpkgs version to avoid cachix key issues
   };
 
-  outputs = { self, nixpkgs, home-manager, impermanence, hyprland, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, impermanence, ... }@inputs:
   let
-    # Custom lib with helper functions
     lib = nixpkgs.lib;
   in
   {
     nixosConfigurations = {
       matebook = lib.nixosSystem {
-        # Use pkgs.stdenv.hostPlatform.system instead of deprecated 'system'
         specialArgs = { inherit inputs; };
         
         modules = [
