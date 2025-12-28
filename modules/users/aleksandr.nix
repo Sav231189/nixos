@@ -33,10 +33,8 @@
     # Default shell
     shell = pkgs.zsh;
     
-    # Password is set during installation via:
-    # nixos-enter --root /mnt -c 'passwd aleksandr'
-    # Do NOT use initialPassword for security reasons
-    initialHashedPassword = null;  # Force password to be set manually
+    # Initial password - CHANGE AFTER FIRST LOGIN with `passwd`
+    initialPassword = "changeme";
   };
 
   # Enable zsh system-wide
