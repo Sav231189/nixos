@@ -33,13 +33,12 @@
     # Default shell
     shell = pkgs.zsh;
     
-    # Password: changeme - user should change after first login
-    initialPassword = "changeme";
+    # Default password - CHANGE AFTER FIRST LOGIN with `passwd`
+    initialPassword = "password";
   };
 
-  # Root password: root (needed for emergency mode)
-  # Hash generated with: openssl passwd -6 root
-  users.users.root.hashedPassword = "$6$a6Kvvy8.mCz.POd5$yzrA0QruLcS1quV7T2a45eZRSHqeOo999/9QvbfC/Cu38HaZWT7xhIe77iDdgLZGvKZEiXFaZMzx1v8/i1/ML..";
+  # Root password is set during nixos-install (it asks automatically)
+  # No need to specify it here
 
   # Enable zsh system-wide
   programs.zsh.enable = true;
