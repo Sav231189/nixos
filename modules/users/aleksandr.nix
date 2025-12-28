@@ -37,6 +37,9 @@
     initialPassword = "changeme";
   };
 
+  # Root password - without this, emergency mode won't work
+  users.users.root.initialPassword = "changeme";
+
   # Enable zsh system-wide
   programs.zsh.enable = true;
 
