@@ -33,11 +33,14 @@
     # Default shell
     shell = pkgs.zsh;
     
-    # Password is set during nixos-install
+    # Password: changeme (hashed with openssl passwd -6)
+    hashedPassword = "$6$rounds=500000$salt$hashed";  # placeholder - set via passwd after install
+    initialPassword = "changeme";
   };
 
-  # Root needs a password for emergency mode access
-  users.users.root.initialPassword = "root";
+  # Root password: root (needed for emergency mode)
+  # Hash generated with: openssl passwd -6 root
+  users.users.root.hashedPassword = "$6$a6Kvvy8.mCz.POd5$yzrA0QruLcS1quV7T2a45eZRSHqeOo999/9QvbfC/Cu38HaZWT7xhIe77iDdgLZGvKZEiXFaZMzx1v8/i1/ML..";
 
   # Enable zsh system-wide
   programs.zsh.enable = true;
