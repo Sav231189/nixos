@@ -28,6 +28,8 @@
   # Replace this file with the output of `nixos-generate-config --root /mnt`
   # after partitioning and mounting your drives during installation.
 
+  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-partlabel/primary";
+
   # Kernel modules for Intel 12th Gen + NVMe
   boot.initrd.availableKernelModules = [
     "xhci_pci"
@@ -49,11 +51,11 @@
   # 2. Copy the generated hardware-configuration.nix to this file
   
   # Example of what the real config will look like:
-  # fileSystems."/" = {
-  #   device = "/dev/disk/by-uuid/XXXX";
-  #   fsType = "btrfs";
-  #   options = [ "subvol=@" "compress=zstd" "noatime" ];
-  # };
+  fileSystems."/" = {
+    device = "/dev/disk/by-partlabel/primary";
+    fsType = "btrfs";
+    options = [ "subvol=@" "compress=zstd" "noatime" ];
+  };
 
   # Enable firmware updates
   hardware.enableRedistributableFirmware = true;

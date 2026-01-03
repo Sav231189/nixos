@@ -25,7 +25,7 @@
   };
 
   # Disable wpa_supplicant (NetworkManager handles WiFi)
-  networking.wireless.enable = false;
+  # networking.wireless.enable = false;
 
   # Firewall
   networking.firewall = {

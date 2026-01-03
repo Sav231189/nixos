@@ -42,7 +42,6 @@
       
       # Icons
       font-awesome
-      nerdfonts
       material-design-icons
     ];
 
