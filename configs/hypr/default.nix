@@ -48,9 +48,12 @@
       decoration = {
         rounding = 10;
         blur = { enabled = true; size = 8; passes = 3; };
-        drop_shadow = true;
-        shadow_range = 15;
-        "col.shadow" = "rgba(1a1a1aee)";
+        shadow = {
+          enabled = true;
+          range = 15;
+          render_power = 3;
+          color = "rgba(1a1a1aee)";
+        };
         active_opacity = 1.0;
         inactive_opacity = 0.9;
       };

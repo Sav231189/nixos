@@ -42,4 +42,7 @@
   };
 
   services.blueman.enable = true;
+
+  # Force NetworkManager to start
+  systemd.services.NetworkManager.enable = true;
 }

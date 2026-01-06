@@ -137,6 +137,12 @@
   hardware.enableRedistributableFirmware = true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
+  fileSystems."/boot" = {
+    device = "/dev/nvme0n1p1";
+    fsType = "vfat";
+    options = [ "fmask=0022" "dmask=0022" ];
+  };
+
   # Desktop (Hyprland)
   programs.hyprland = { enable = true; xwayland.enable = true; };
 
@@ -212,8 +218,15 @@
   console = { font = "Lat2-Terminus16"; useXkbConfig = true; };
   services.xserver.xkb = { layout = "us,ru"; options = "grp:alt_shift_toggle"; };
 
-  # User
-  services.getty.autologinUser = "alxr";
+  # User & Display Manager
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "alxr";
+  };
   users.users.alxr = {
     isNormalUser = true;
     description = "Aleksandr";
