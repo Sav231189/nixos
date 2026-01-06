@@ -140,7 +140,7 @@
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/F121-A68D";
     fsType = "vfat";
-    options = [ "fmask=0077" "dmask=0077" ];
+    options = [ "fmask=0077" "dmask=0077" "nofail" ];
   };
 
   # Desktop (Hyprland)
