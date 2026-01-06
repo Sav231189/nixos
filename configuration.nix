@@ -145,6 +145,10 @@
     extraPortals = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
   };
 
+  # Auto-mount & File management
+  services.gvfs.enable = true; # Nautilus needs this for trash and mounting
+  services.udisks2.enable = true;
+
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1";
