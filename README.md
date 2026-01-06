@@ -8,6 +8,7 @@
 nixos/
 ├── flake.nix               # Точка входа
 ├── configuration.nix       # NixOS: system, boot, desktop
+├── hardware-configuration.nix  # Автогенерируемый при установке
 ├── home.nix                # Home Manager: user config
 └── configs/
     ├── dev/                # Git, браузеры, CLI утилиты
@@ -33,22 +34,6 @@ update      # nix flake update ~/nixos
 
 # Очистка старых версий
 clean       # sudo nix-collect-garbage -d && nix-collect-garbage -d
-```
-
-## 🔧 Первая установка
-
-```bash
-# 1. Клонировать репозиторий
-git clone <repo> ~/nixos
-
-# 2. Собрать систему
-sudo nixos-rebuild switch --flake ~/nixos#matebook
-
-# 3. Установить пароль
-passwd alxr
-
-# 4. Перезагрузиться
-reboot
 ```
 
 ## ⌨️ Горячие клавиши Hyprland
@@ -90,44 +75,58 @@ reboot
 - Firefox + Chromium
 - Современные CLI: ripgrep, fd, bat, eza, btop
 
-## 📝 TODO
-
-- [ ] Добавить email в git config (`configs/dev/default.nix`)
-- [ ] Выбрать один терминал (Kitty или Alacritty)
-- [ ] Настроить hyprpaper (обои)
+---
 
 ## 📀 Чистая установка с шифрованием
 
 > ⚠️ **ВНИМАНИЕ**: Все данные на диске будут удалены!
 
-### 1. Подготовка диска
+### Шаг 1. Загрузка с Live USB
 
-Переходим в root и находим наш диск:
+1. Скачай NixOS ISO: https://nixos.org/download
+2. Запиши на флешку (Rufus / `dd`)
+3. Загрузись с флешки
+4. Подключи WiFi:
+   ```bash
+   sudo systemctl start NetworkManager
+   nmtui  # или nmcli device wifi connect "SSID" password "PASSWORD"
+   ```
+
+### Шаг 2. Разметка диска
+
 ```bash
+# Переходим в root
 sudo -i
-lsblk  # Например, nvme0n1
-DISK=/dev/nvme0n1
-```
 
-Разметка (1GB для Boot, остальное под LUKS):
-```bash
+# Определяем диск (обычно nvme0n1 или sda)
+lsblk
+DISK=/dev/nvme0n1
+
+# Создаём разделы: 1GB для Boot, остальное под LUKS
 parted $DISK -- mklabel gpt
 parted $DISK -- mkpart ESP fat32 1MB 1024MB
 parted $DISK -- set 1 esp on
 parted $DISK -- mkpart primary 1024MB 100%
 ```
 
-Форматирование:
+### Шаг 3. Шифрование и форматирование
+
 ```bash
+# Boot раздел (FAT32, без шифрования)
 mkfs.fat -F 32 -n BOOT ${DISK}p1
+
+# Шифруем основной раздел (запомни пароль!)
 cryptsetup luksFormat ${DISK}p2
 cryptsetup open ${DISK}p2 cryptroot
+
+# Создаём BTRFS
 mkfs.btrfs -L nixos /dev/mapper/cryptroot
 ```
 
-### 2. Монтирование
+### Шаг 4. Создание subvolumes и монтирование
 
 ```bash
+# Создаём subvolumes
 mount /dev/mapper/cryptroot /mnt
 btrfs subvolume create /mnt/@
 btrfs subvolume create /mnt/@home
@@ -135,6 +134,7 @@ btrfs subvolume create /mnt/@swap
 btrfs subvolume create /mnt/@snapshots
 umount /mnt
 
+# Монтируем для установки
 mount -o subvol=@,compress=zstd,noatime /dev/mapper/cryptroot /mnt
 mkdir -p /mnt/{home,boot,swap,.snapshots}
 mount -o subvol=@home,compress=zstd,noatime /dev/mapper/cryptroot /mnt/home
@@ -143,29 +143,51 @@ mount -o subvol=@snapshots,compress=zstd,noatime /dev/mapper/cryptroot /mnt/.sna
 mount ${DISK}p1 /mnt/boot
 ```
 
-### 3. Установка системы
+### Шаг 5. Клонирование конфигурации
 
-Клонируем конфигурацию:
 ```bash
-mkdir -p /mnt/etc/nixos
-git clone https://github.com/Sav231189/nixos /mnt/etc/nixos/temp
-cp -r /mnt/etc/nixos/temp/* /mnt/etc/nixos/
-rm -rf /mnt/etc/nixos/temp
+# Клонируем репозиторий
+git clone https://github.com/Sav231189/nixos /mnt/etc/nixos
 ```
 
-Генерируем конфигурацию железа (чтобы UUID дисков прописались сами!):
+### Шаг 6. Генерация hardware-configuration.nix
+
 ```bash
+# Генерируем конфигурацию железа (UUID дисков пропишутся автоматически!)
 nixos-generate-config --root /mnt
 ```
 
-> **ВАЖНО**: Проверь `/mnt/etc/nixos/configuration.nix`. Убедись, что там НЕТ дублирующихся строк `fileSystems`, если они уже есть в `hardware-configuration.nix`. В нашем репо `fileSystems` вынесены, так что конфликтов быть не должно.
+> ℹ️ Эта команда создаст `/mnt/etc/nixos/hardware-configuration.nix` с правильными UUID для твоих дисков. Файл `configuration.nix` уже его импортирует.
 
-Запускаем установку:
+### Шаг 7. Установка
+
 ```bash
-nixos-install --flake /mnt/etc/nixos#matebook
+cd /mnt/etc/nixos
+git add .
+nixos-install --flake .#matebook
 ```
 
-После завершения:
+После установки система попросит установить пароль root.
+
+### Шаг 8. Перезагрузка
+
 ```bash
 reboot
 ```
+
+После загрузки:
+```bash
+# Установи пароль пользователя
+passwd alxr
+
+# Запусти Hyprland
+Hyprland
+```
+
+---
+
+## 📝 TODO
+
+- [ ] Добавить email в git config (`configs/dev/default.nix`)
+- [ ] Выбрать один терминал (Kitty или Alacritty)
+- [ ] Настроить hyprpaper (обои)

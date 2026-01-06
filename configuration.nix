@@ -62,6 +62,7 @@
 
 {
   imports = [
+    ./hardware-configuration.nix
     ./configs/network
     ./configs/hardware
   ];
@@ -88,13 +89,6 @@
     timeout = 3;
   };
 
-  boot.initrd.luks.devices."cryptroot" = {
-    device = "/dev/disk/by-partlabel/primary";
-    preLVM = true;
-    allowDiscards = true;
-    bypassWorkqueues = true;
-  };
-
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [
     "quiet" "splash" "mitigations=auto"
@@ -106,36 +100,9 @@
   boot.consoleLogLevel = 0;
   boot.initrd.verbose = false;
 
-  # Filesystem
-  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
-  boot.kernelModules = [ "kvm-intel" ];
-
-  fileSystems."/" = {
-    device = "/dev/mapper/cryptroot";
-    fsType = "btrfs";
-    options = [ "subvol=@" "compress=zstd" "noatime" ];
-  };
-
-  fileSystems."/swap" = {
-    device = "/dev/mapper/cryptroot";
-    fsType = "btrfs";
-    options = [ "subvol=@swap" "noatime" "ssd" ];
-  };
-
-  fileSystems."/.snapshots" = {
-    device = "/dev/mapper/cryptroot";
-    fsType = "btrfs";
-    options = [ "subvol=@snapshots" "compress=zstd:1" "noatime" "ssd" "discard=async" "space_cache=v2" ];
-  };
-
-  swapDevices = [{ device = "/swap/swapfile"; size = 18 * 1024; }];
-  zramSwap = { enable = true; algorithm = "zstd"; memoryPercent = 100; };
+  # Swap & Filesystem maintenance
+  zramSwap = { enable = true; algorithm = "zstd"; memoryPercent = 50; };
   services.btrfs.autoScrub = { enable = true; interval = "monthly"; fileSystems = [ "/" ]; };
-
-  # Hardware
-  hardware.firmware = [ pkgs.linux-firmware ];
-  hardware.enableRedistributableFirmware = true;
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   # Desktop (Hyprland)
   programs.hyprland = { enable = true; xwayland.enable = true; };
