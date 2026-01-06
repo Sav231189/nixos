@@ -157,7 +157,13 @@ git clone https://github.com/Sav231189/nixos /mnt/etc/nixos
 nixos-generate-config --root /mnt
 ```
 
-> ℹ️ Эта команда создаст `/mnt/etc/nixos/hardware-configuration.nix` с правильными UUID для твоих дисков. Файл `configuration.nix` уже его импортирует.
+> ℹ️ Эта команда создаст `/mnt/etc/nixos/hardware-configuration.nix` с правильными UUID для LUKS и BTRFS. Файл `configuration.nix` уже его импортирует.
+
+**Проверка:** Убедись, что оба файла на месте:
+```bash
+ls -la /mnt/etc/nixos/
+# Должны быть: configuration.nix, hardware-configuration.nix, flake.nix, home.nix, configs/
+```
 
 ### Шаг 7. Установка
 
