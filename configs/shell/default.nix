@@ -109,6 +109,13 @@
       zle -N edit-command-line
       bindkey '^E' edit-command-line
     '';
+
+    profileExtra = ''
+      # Автозапуск Hyprland на tty1
+      if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+        exec Hyprland
+      fi
+    '';
   };
 
   programs.starship = {
