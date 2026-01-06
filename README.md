@@ -48,145 +48,221 @@ clean       # sudo nix-collect-garbage -d && nix-collect-garbage -d
 | `Super + F` | Полноэкранный режим |
 | `Super + Space` | Плавающий режим |
 | `Super + 1-0` | Рабочие столы |
-| `Super + Shift + 1-0` | Переместить окно |
 | `Print` | Скриншот области |
-| `Shift + Print` | Скриншот всего экрана |
-
-## 🎨 Тема
-
-**Catppuccin Mocha**
-- Фон: `#1e1e2e`
-- Акцент: `#cba6f7`
-- Текст: `#cdd6f4`
-
-## 📦 Что включено
-
-### Система (configuration.nix)
-- systemd-boot + LUKS шифрование
-- BTRFS с subvolumes + zram
-- Hyprland + PipeWire
-- Intel GPU драйвера
-
-### Пользователь (home.nix)
-- Zsh + Starship + fzf + zoxide
-- Kitty + Alacritty
-- Waybar + Wofi + Dunst
-- Git + Lazygit + GitHub CLI
-- Firefox + Chromium
-- Современные CLI: ripgrep, fd, bat, eza, btop
 
 ---
 
-## 📀 Чистая установка с шифрованием
+##  Чистая установка с шифрованием
 
 > ⚠️ **ВНИМАНИЕ**: Все данные на диске будут удалены!
 
-### Шаг 1. Загрузка с Live USB
+---
 
-1. Скачай NixOS ISO: https://nixos.org/download
-2. Запиши на флешку (Rufus / `dd`)
-3. Загрузись с флешки
-4. Подключи WiFi:
-   ```bash
-   sudo systemctl start NetworkManager
-   nmtui  # или nmcli device wifi connect "SSID" password "PASSWORD"
-   ```
-
-### Шаг 2. Разметка диска
+### Шаг 1. WiFi
 
 ```bash
-# Переходим в root
+sudo systemctl start NetworkManager
+```
+
+```bash
+nmtui
+```
+
+---
+
+### Шаг 2. Стать root
+
+```bash
 sudo -i
+```
 
-# Определяем диск (обычно nvme0n1 или sda)
+---
+
+### Шаг 3. Определить диск
+
+```bash
 lsblk
-DISK=/dev/nvme0n1
+```
 
-# Создаём разделы: 1GB для Boot, остальное под LUKS
+```bash
+DISK=/dev/nvme0n1
+```
+
+---
+
+### Шаг 4. Разметка диска
+
+```bash
 parted $DISK -- mklabel gpt
+```
+
+```bash
 parted $DISK -- mkpart ESP fat32 1MB 1024MB
+```
+
+```bash
 parted $DISK -- set 1 esp on
+```
+
+```bash
 parted $DISK -- mkpart primary 1024MB 100%
 ```
 
-### Шаг 3. Шифрование и форматирование
+```bash
+partprobe $DISK
+```
 
 ```bash
-# Boot раздел (FAT32, без шифрования)
+lsblk
+```
+
+> Убедись, что видны `nvme0n1p1` и `nvme0n1p2`
+
+---
+
+### Шаг 5. Форматирование Boot
+
+```bash
 mkfs.fat -F 32 -n BOOT ${DISK}p1
+```
 
-# Шифруем основной раздел (запомни пароль!)
+---
+
+### Шаг 6. Шифрование (запомни пароль!)
+
+```bash
 cryptsetup luksFormat ${DISK}p2
-cryptsetup open ${DISK}p2 cryptroot
+```
 
-# Создаём BTRFS
+```bash
+cryptsetup open ${DISK}p2 cryptroot
+```
+
+---
+
+### Шаг 7. Создание BTRFS
+
+```bash
 mkfs.btrfs -L nixos /dev/mapper/cryptroot
 ```
 
-### Шаг 4. Создание subvolumes и монтирование
+---
+
+### Шаг 8. Создание subvolumes
 
 ```bash
-# Создаём subvolumes
 mount /dev/mapper/cryptroot /mnt
-btrfs subvolume create /mnt/@
-btrfs subvolume create /mnt/@home
-btrfs subvolume create /mnt/@swap
-btrfs subvolume create /mnt/@snapshots
-umount /mnt
+```
 
-# Монтируем для установки
+```bash
+btrfs subvolume create /mnt/@
+```
+
+```bash
+btrfs subvolume create /mnt/@home
+```
+
+```bash
+btrfs subvolume create /mnt/@swap
+```
+
+```bash
+btrfs subvolume create /mnt/@snapshots
+```
+
+```bash
+umount /mnt
+```
+
+---
+
+### Шаг 9. Монтирование
+
+```bash
 mount -o subvol=@,compress=zstd,noatime /dev/mapper/cryptroot /mnt
+```
+
+```bash
 mkdir -p /mnt/{home,boot,swap,.snapshots}
+```
+
+```bash
 mount -o subvol=@home,compress=zstd,noatime /dev/mapper/cryptroot /mnt/home
+```
+
+```bash
 mount -o subvol=@swap,noatime /dev/mapper/cryptroot /mnt/swap
+```
+
+```bash
 mount -o subvol=@snapshots,compress=zstd,noatime /dev/mapper/cryptroot /mnt/.snapshots
+```
+
+```bash
 mount ${DISK}p1 /mnt/boot
 ```
 
-### Шаг 5. Клонирование конфигурации
+---
+
+### Шаг 10. Клонирование конфига
 
 ```bash
-# Клонируем репозиторий
 git clone https://github.com/Sav231189/nixos /mnt/etc/nixos
 ```
 
-### Шаг 6. Генерация hardware-configuration.nix
+---
+
+### Шаг 11. Генерация hardware-configuration.nix
 
 ```bash
-# Генерируем конфигурацию железа (UUID дисков пропишутся автоматически!)
 nixos-generate-config --root /mnt
 ```
 
-> ℹ️ Эта команда создаст `/mnt/etc/nixos/hardware-configuration.nix` с правильными UUID для LUKS и BTRFS. Файл `configuration.nix` уже его импортирует.
+---
 
-**Проверка:** Убедись, что оба файла на месте:
+### Шаг 12. Проверка
+
 ```bash
 ls -la /mnt/etc/nixos/
-# Должны быть: configuration.nix, hardware-configuration.nix, flake.nix, home.nix, configs/
 ```
 
-### Шаг 7. Установка
+> Должны быть: `configuration.nix`, `hardware-configuration.nix`, `flake.nix`, `home.nix`, `configs/`
+
+---
+
+### Шаг 13. Установка
 
 ```bash
 cd /mnt/etc/nixos
+```
+
+```bash
 git add .
+```
+
+```bash
 nixos-install --flake .#matebook
 ```
 
-После установки система попросит установить пароль root.
+> Введи пароль root когда попросит
 
-### Шаг 8. Перезагрузка
+---
+
+### Шаг 14. Перезагрузка
 
 ```bash
 reboot
 ```
 
-После загрузки:
-```bash
-# Установи пароль пользователя
-passwd alxr
+---
 
-# Запусти Hyprland
+### Шаг 15. После загрузки
+
+```bash
+passwd alxr
+```
+
+```bash
 Hyprland
 ```
 
@@ -194,6 +270,5 @@ Hyprland
 
 ## 📝 TODO
 
-- [ ] Добавить email в git config (`configs/dev/default.nix`)
-- [ ] Выбрать один терминал (Kitty или Alacritty)
+- [ ] Добавить email в git config
 - [ ] Настроить hyprpaper (обои)
