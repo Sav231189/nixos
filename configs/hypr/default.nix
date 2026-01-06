@@ -78,7 +78,7 @@
         touchpad = { natural_scroll = true; tap-to-click = true; disable_while_typing = true; };
       };
 
-      gestures = { workspace_swipe = true; workspace_swipe_fingers = 3; };
+      gestures.workspace_swipe = true;
 
       bind = [
         "$mod, Return, exec, $terminal"
@@ -137,7 +137,7 @@
 
   programs.waybar = {
     enable = true;
-    systemd.enable = true;
+    systemd.enable = false;
     settings.mainBar = {
       layer = "top"; position = "top"; height = 32;
       modules-left = [ "hyprland/workspaces" ];
