@@ -138,7 +138,7 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   fileSystems."/boot" = {
-    device = "/dev/nvme0n1p1";
+    device = "/dev/disk/by-uuid/F121-A68D";
     fsType = "vfat";
     options = [ "fmask=0022" "dmask=0022" ];
   };
