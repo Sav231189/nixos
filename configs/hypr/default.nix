@@ -29,7 +29,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
-      monitor = ",preferred,auto,1.5";
+      monitor = ",preferred,auto,1.25";
       "$mod" = "SUPER";
       "$terminal" = "kitty";
       "$browser" = "firefox";
@@ -78,7 +78,7 @@
         touchpad = { natural_scroll = true; tap-to-click = true; disable_while_typing = true; };
       };
 
-      gestures.workspace_swipe = true;
+      # gestures.workspace_swipe = true;
 
       bind = [
         "$mod, Return, exec, $terminal"
