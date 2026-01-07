@@ -118,6 +118,7 @@
       rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#matebook";
       update = "nix flake update /etc/nixos";
       clean = "sudo nix-collect-garbage -d && nix-collect-garbage -d";
+      ns = "nix-search-tv print | fzf --preview 'nix-search-tv preview {}' --scheme history"; # Поиск пакетов
 
       # Навигация
       ".." = "cd ..";
