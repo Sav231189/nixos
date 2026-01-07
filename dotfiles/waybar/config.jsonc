@@ -1,0 +1,41 @@
+// ============================================================================== //
+//                                                                                //
+//   Waybar — Верхняя панель                                                      //
+//                                                                                //
+// ============================================================================== //
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+
+    // Левая часть — рабочие столы
+    "modules-left": ["hyprland/workspaces"],
+
+    // Центр — часы
+    "modules-center": ["clock"],
+
+    // Правая часть — звук, сеть, батарея, трей
+    "modules-right": ["pulseaudio", "network", "battery", "tray"],
+
+    // ── Модули ──────────────────────────────────────────────────────────────
+    "clock": {
+        "format": " {:%H:%M}"
+    },
+
+    "battery": {
+        "format": "{icon} {capacity}%",
+        "format-icons": ["", "", "", "", ""]
+    },
+
+    "network": {
+        "format-wifi": " {signalStrength}%",
+        "format-disconnected": "󰤮"
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-icons": {
+            "default": ["", "", ""]
+        }
+    }
+}

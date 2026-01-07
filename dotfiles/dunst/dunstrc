@@ -1,0 +1,31 @@
+# ============================================================================== #
+#                                                                                #
+#   Dunst — Уведомления                                                          #
+#   Тема: Catppuccin Mocha                                                       #
+#                                                                                #
+# ============================================================================== #
+
+[global]
+width = 300
+height = 100
+offset = 10x40
+origin = top-right
+frame_color = "#cba6f7"
+frame_width = 2
+corner_radius = 10
+font = "JetBrainsMono Nerd Font 10"
+
+[urgency_low]
+background = "#1e1e2e"
+foreground = "#cdd6f4"
+timeout = 5
+
+[urgency_normal]
+background = "#1e1e2e"
+foreground = "#cdd6f4"
+timeout = 10
+
+[urgency_critical]
+background = "#1e1e2e"
+foreground = "#f38ba8"
+frame_color = "#f38ba8"
