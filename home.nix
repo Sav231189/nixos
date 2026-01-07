@@ -32,10 +32,11 @@ let
   dotfilesPath = "${config.home.homeDirectory}/nixos/dotfiles";
   mkSymlink = path: config.lib.file.mkOutOfStoreSymlink path;
 
-  # Только Hyprland и Kitty через симлинки (остальные через Home Manager)
+  # Конфиги через симлинки (live reload без rebuild)
   dotfiles = {
-    hypr = "hypr";     # Hyprland — live reload
-    kitty = "kitty";   # Kitty — live reload
+    hypr = "hypr";       # Hyprland
+    kitty = "kitty";     # Терминал
+    waybar = "waybar";   # Панель
   };
 
 in
@@ -80,35 +81,7 @@ in
 
   # Hyprland включён системно в configuration.nix (programs.hyprland.enable)
   # Конфиг берётся из симлинка dotfiles/hypr/ → ~/.config/hypr/
-
-  # ══════════════════════════════════════════════════════════════════════════════
-  # WAYBAR — Панель
-  # ══════════════════════════════════════════════════════════════════════════════
-  programs.waybar = {
-    enable = true;
-    systemd.enable = false;
-    settings.mainBar = {
-      layer = "top";
-      position = "top";
-      height = 32;
-      modules-left = [ "hyprland/workspaces" ];
-      modules-center = [ "clock" ];
-      modules-right = [ "pulseaudio" "network" "battery" "tray" ];
-      clock = { format = " {:%H:%M}"; };
-      battery = { format = "{icon} {capacity}%"; format-icons = [ "" "" "" "" "" ]; };
-      network = { format-wifi = " {signalStrength}%"; format-disconnected = "󰤮"; };
-      pulseaudio = { format = "{icon} {volume}%"; format-icons = { default = [ "" "" "" ]; }; };
-    };
-    style = ''
-      * { font-family: "JetBrainsMono Nerd Font"; font-size: 13px; }
-      window#waybar { background: rgba(30, 30, 46, 0.8); color: #cdd6f4; }
-      #workspaces button { padding: 0 8px; color: #cdd6f4; background: transparent; }
-      #workspaces button.active { background: #cba6f7; color: #1e1e2e; }
-      #clock, #battery, #network, #pulseaudio, #tray {
-        padding: 0 10px; margin: 4px 2px; background: #313244; border-radius: 8px;
-      }
-    '';
-  };
+  # Waybar — конфиг через dotfiles/waybar/ (live reload)
 
   # ══════════════════════════════════════════════════════════════════════════════
   # WOFI — Лаунчер
