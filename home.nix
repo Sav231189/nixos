@@ -88,6 +88,16 @@ in
     dotfiles;
 
   # ══════════════════════════════════════════════════════════════════════════════
+  # HYPRLAND — Включение (конфиг в dotfiles/hypr/)
+  # ══════════════════════════════════════════════════════════════════════════════
+  wayland.windowManager.hyprland.enable = true;
+
+  # Waybar, Wofi, Dunst — включение (конфиги в dotfiles/)
+  programs.waybar.enable = true;
+  programs.wofi.enable = true;
+  services.dunst.enable = true;
+
+  # ══════════════════════════════════════════════════════════════════════════════
   # XDG — Стандартные пользовательские директории
   # ══════════════════════════════════════════════════════════════════════════════
   # Создаёт и настраивает ~/desktop, ~/documents, ~/downloads, ~/media
@@ -105,9 +115,9 @@ in
       pictures = "${config.home.homeDirectory}/media";
       videos = "${config.home.homeDirectory}/media";
 
-      # Отключаем лишние папки (указываем на home)
-      publicShare = "${config.home.homeDirectory}";
-      templates = "${config.home.homeDirectory}";
+      # Отключаем лишние папки
+      publicShare = null;
+      templates = null;
     };
   };
 }
