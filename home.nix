@@ -28,7 +28,8 @@
 
 let
   # ── Dotfiles — симлинки в ~/.config/ (LIVE RELOAD) ─────────────────────────
-  dotfilesPath = "${config.home.homeDirectory}/nixos/dotfiles";
+  # Абсолютный путь к репозиторию (~/nixos/dotfiles)
+  dotfilesPath = "/home/alxr/nixos/dotfiles";
   mkSymlink = path: config.lib.file.mkOutOfStoreSymlink path;
 
   # Только Hyprland и Kitty через симлинки (остальные через Home Manager)
