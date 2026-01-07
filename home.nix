@@ -39,6 +39,7 @@ let
     waybar = "waybar";   # Панель
     wofi = "wofi";       # Лаунчер
     dunst = "dunst";     # Уведомления
+    neofetch = "neofetch"; # Инфо о системе
   };
 
 in
