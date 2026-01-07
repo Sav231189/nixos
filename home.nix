@@ -115,4 +115,10 @@ in
       templates = "${config.home.homeDirectory}";
     };
   };
+
+  # Удаляем папки Public и Templates, если они указывают на домашнюю директорию
+  home.activation.removeXdgDirs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    rm -rf ${config.home.homeDirectory}/Public
+    rm -rf ${config.home.homeDirectory}/Templates
+  '';
 }
