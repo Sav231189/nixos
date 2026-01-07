@@ -37,6 +37,8 @@ let
     hypr = "hypr";       # Hyprland
     kitty = "kitty";     # Терминал
     waybar = "waybar";   # Панель
+    wofi = "wofi";       # Лаунчер
+    dunst = "dunst";     # Уведомления
   };
 
 in
@@ -46,7 +48,7 @@ in
   # ══════════════════════════════════════════════════════════════════════════════
   imports = [
     ./modules/shell.nix      # Zsh, Starship prompt, fzf, zoxide, алиасы
-    ./modules/dev.nix        # Git, браузеры, CLI утилиты
+    ./modules/dev.nix        # CLI утилиты
     ./modules/theme.nix      # GTK/Qt темы
   ];
 
@@ -80,39 +82,19 @@ in
     dotfiles;
 
   # Hyprland включён системно в configuration.nix (programs.hyprland.enable)
-  # Конфиг берётся из симлинка dotfiles/hypr/ → ~/.config/hypr/
-  # Waybar — конфиг через dotfiles/waybar/ (live reload)
+  # Конфиги через симлинки: dotfiles/hypr/, dotfiles/kitty/, dotfiles/waybar/
 
   # ══════════════════════════════════════════════════════════════════════════════
-  # WOFI — Лаунчер
+  # PACKAGES — Пользовательские пакеты
   # ══════════════════════════════════════════════════════════════════════════════
-  programs.wofi = {
-    enable = true;
-    settings = { width = 400; height = 300; location = "center"; show = "drun"; };
-    style = ''
-      window { border: 2px solid #cba6f7; border-radius: 15px; background: rgba(30, 30, 46, 0.9); }
-      #input { margin: 5px; border-radius: 10px; color: #cdd6f4; background: #313244; }
-      #entry:selected { background: #cba6f7; border-radius: 10px; }
-      #entry:selected #text { color: #1e1e2e; }
-    '';
-  };
+  # Терминалы (kitty, alacritty) — в configuration.nix системно
+  home.packages = with pkgs; [
+    # Браузеры
+    firefox
+    chromium
+  ];
 
-  # ══════════════════════════════════════════════════════════════════════════════
-  # DUNST — Уведомления
-  # ══════════════════════════════════════════════════════════════════════════════
-  services.dunst = {
-    enable = true;
-    settings = {
-      global = {
-        width = 300; height = 100; offset = "10x40"; origin = "top-right";
-        frame_color = "#cba6f7"; frame_width = 2; corner_radius = 10;
-        font = "JetBrainsMono Nerd Font 10";
-      };
-      urgency_low = { background = "#1e1e2e"; foreground = "#cdd6f4"; timeout = 5; };
-      urgency_normal = { background = "#1e1e2e"; foreground = "#cdd6f4"; timeout = 10; };
-      urgency_critical = { background = "#1e1e2e"; foreground = "#f38ba8"; frame_color = "#f38ba8"; };
-    };
-  };
+  # Wofi и Dunst — конфиги в dotfiles/wofi/ и dotfiles/dunst/ (live reload)
 
   # ══════════════════════════════════════════════════════════════════════════════
   # XDG — Стандартные директории
@@ -128,8 +110,9 @@ in
       music = "${config.home.homeDirectory}/media";
       pictures = "${config.home.homeDirectory}/media";
       videos = "${config.home.homeDirectory}/media";
-      publicShare = null;
-      templates = null;
+      # Отключаем лишние папки (указываем на home чтобы не создавались отдельно)
+      publicShare = "${config.home.homeDirectory}";
+      templates = "${config.home.homeDirectory}";
     };
   };
 }
