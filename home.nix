@@ -28,8 +28,8 @@
 
 let
   # ── Dotfiles — симлинки в ~/.config/ (LIVE RELOAD) ─────────────────────────
-  # Абсолютный путь к репозиторию (~/nixos/dotfiles)
-  dotfilesPath = "/home/alxr/nixos/dotfiles";
+  # Репозиторий должен быть склонирован в ~/nixos/
+  dotfilesPath = "${config.home.homeDirectory}/nixos/dotfiles";
   mkSymlink = path: config.lib.file.mkOutOfStoreSymlink path;
 
   # Только Hyprland и Kitty через симлинки (остальные через Home Manager)
@@ -78,10 +78,8 @@ in
     })
     dotfiles;
 
-  # ══════════════════════════════════════════════════════════════════════════════
-  # HYPRLAND — Включение (конфиг в dotfiles/hypr/)
-  # ══════════════════════════════════════════════════════════════════════════════
-  wayland.windowManager.hyprland.enable = true;
+  # Hyprland включён системно в configuration.nix (programs.hyprland.enable)
+  # Конфиг берётся из симлинка dotfiles/hypr/ → ~/.config/hypr/
 
   # ══════════════════════════════════════════════════════════════════════════════
   # WAYBAR — Панель
