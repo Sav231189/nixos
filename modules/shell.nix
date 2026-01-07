@@ -146,7 +146,7 @@
     # Запускает Hyprland автоматически на tty1 (после логина)
     profileExtra = ''
       if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
-        exec Hyprland
+        exec dbus-run-session Hyprland
       fi
     '';
   };
