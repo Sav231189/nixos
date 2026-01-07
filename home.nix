@@ -104,6 +104,10 @@ in
       music = "${config.home.homeDirectory}/media";
       pictures = "${config.home.homeDirectory}/media";
       videos = "${config.home.homeDirectory}/media";
+
+      # Отключаем лишние папки (указываем на home)
+      publicShare = "${config.home.homeDirectory}";
+      templates = "${config.home.homeDirectory}";
     };
   };
 }
