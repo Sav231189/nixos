@@ -40,6 +40,7 @@ let
     wofi = "wofi";       # Лаунчер
     dunst = "dunst";     # Уведомления
     neofetch = "neofetch"; # Инфо о системе
+    quickshell = "quickshell"; # Quickshell конфиги
   };
 
 in
@@ -73,7 +74,7 @@ in
   };
 
   # ══════════════════════════════════════════════════════════════════════════════
-  # DOTFILES — Симлинки (только hypr и kitty для live reload)
+  # DOTFILES — Симлинки (для live reload)
   # ══════════════════════════════════════════════════════════════════════════════
   xdg.configFile = builtins.mapAttrs
     (name: subpath: {

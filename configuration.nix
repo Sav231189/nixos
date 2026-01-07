@@ -251,6 +251,7 @@
     ntfs3g                # Монтирование Windows NTFS дисков
 
     # ── Hyprland Desktop ─────────────────────────────────────────────────────
+    quickshell            # Quickshell
     waybar                # Верхняя панель
     wofi                  # Лаунчер приложений (Super+D)
     dunst                 # Уведомления
