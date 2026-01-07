@@ -159,11 +159,11 @@
       ${nix-search-tv}/bin/nix-search-tv print | ${fzf}/bin/fzf \
         --preview '${nix-search-tv}/bin/nix-search-tv preview {}' \
         --scheme history \
-        --bind 'ctrl-o:execute(xdg-open "https://search.nixos.org/packages?channel=unstable&query=$(echo {} | awk "{print \$1}" | awk -F/ "{print \$NF}")")' \
-        --bind 'ctrl-s:execute(xdg-open "https://github.com/search?q=repo%3ANixOS%2Fnixpkgs+$(echo {} | awk "{print \$1}" | awk -F/ "{print \$NF}")&type=code")' \
-        --bind 'ctrl-i:execute(${pkgs.kitty}/bin/kitty -e nix shell nixpkgs#$(echo {} | awk "{print \$1}" | awk -F/ "{print \$NF}"))' \
+        --bind 'ctrl-o:execute(xdg-open "https://search.nixos.org/packages?channel=unstable&query=$(echo {} | sed "s|^[^/]*/||" | awk "{print \$1}")")' \
+        --bind 'ctrl-s:execute(xdg-open "https://github.com/search?q=repo%3ANixOS%2Fnixpkgs+$(echo {} | sed "s|^[^/]*/||" | awk "{print \$1}")&type=code")' \
+        --bind 'ctrl-i:execute(${pkgs.kitty}/bin/kitty -e nix shell nixpkgs#$(echo {} | sed "s|^[^/]*/||" | awk "{print \$1}"))' \
         --header 'Ctrl-o: web | Ctrl-s: github | Ctrl-i: shell | Enter: copy' \
-        --bind 'enter:execute(echo {} | awk "{print \$1}" | awk -F/ "{print \$NF}" | ${pkgs.wl-clipboard}/bin/wl-copy)+abort'
+        --bind 'enter:execute(echo {} | sed "s|^[^/]*/||" | awk "{print \$1}" | ${pkgs.wl-clipboard}/bin/wl-copy)+abort'
     '')
 
     # ── Мониторинг системы ───────────────────────────────────────────────────
