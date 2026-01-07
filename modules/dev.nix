@@ -152,7 +152,19 @@
     fzf                            # fzf — fuzzy поиск
     jq                             # jq — работа с JSON
     yq                             # yq — работа с YAML
-    nix-search-tv                  # Поиск пакетов Nix (команда: ns через алиас)
+    nix-search-tv                  # Поисковик пакетов Nix
+    
+    # Скрипт ns для удобного поиска с хоткеями (как на сайте)
+    (writeShellScriptBin "ns" ''
+      ${nix-search-tv}/bin/nix-search-tv print | ${fzf}/bin/fzf \
+        --preview '${nix-search-tv}/bin/nix-search-tv preview {}' \
+        --scheme history \
+        --bind 'ctrl-o:execute(xdg-open "https://search.nixos.org/packages?channel=unstable&query={}")' \
+        --bind 'ctrl-s:execute(xdg-open "https://github.com/search?q=repo%3ANixOS%2Fnixpkgs+{}&type=code")' \
+        --bind 'ctrl-i:execute(${pkgs.kitty}/bin/kitty -e nix shell nixpkgs#{})' \
+        --header 'Ctrl-o: web | Ctrl-s: github | Ctrl-i: shell | Enter: copy' \
+        --bind 'enter:execute(echo {} | ${pkgs.wl-clipboard}/bin/wl-copy)+abort'
+    '')
 
     # ── Мониторинг системы ───────────────────────────────────────────────────
     htop                           # htop — просмотр процессов
