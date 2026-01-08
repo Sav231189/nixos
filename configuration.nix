@@ -254,6 +254,7 @@
     ntfs3g                # Монтирование Windows NTFS дисков
 
     # ── Hyprland Desktop ─────────────────────────────────────────────────────
+    quickshell            # Quickshell (для кастомных конфигов)
     # quickshell          # Removed: managed by noctalia module
     waybar                # Верхняя панель
     wofi                  # Лаунчер приложений (Super+D)
