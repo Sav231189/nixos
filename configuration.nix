@@ -256,13 +256,9 @@
     # ── Hyprland Desktop ─────────────────────────────────────────────────────
     quickshell            # Quickshell (для кастомных конфигов)
     # quickshell          # Removed: managed by noctalia module
-    waybar                # Верхняя панель
-    wofi                  # Лаунчер приложений (Super+D)
-    dunst                 # Уведомления
     hyprpaper             # Обои рабочего стола
     hyprlock              # Экран блокировки
     hypridle              # Автоблокировка при бездействии
-    wlogout               # Меню выхода/перезагрузки
 
     # ── Терминалы ────────────────────────────────────────────────────────────
     kitty                 # Основной терминал (конфиг в ~/nixos/dotfiles/kitty/)

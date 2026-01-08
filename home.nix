@@ -36,9 +36,6 @@ let
   dotfiles = {
     hypr = "hypr";       # Hyprland
     kitty = "kitty";     # Терминал
-    waybar = "waybar";   # Панель
-    wofi = "wofi";       # Лаунчер
-    dunst = "dunst";     # Уведомления
     neofetch = "neofetch"; # Инфо о системе
     quickshell = "quickshell"; # Quickshell конфиги
   };
