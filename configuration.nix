@@ -58,7 +58,9 @@
     # Автоочистка старых поколений (раз в неделю, старше 14 дней)
     gc = { automatic = true; dates = "weekly"; options = "--delete-older-than 14d"; };
   };
-  nixpkgs.config.allowUnfree = true;  # Разрешить проприетарные пакеты (Chrome, Discord)
+
+  # Разрешить проприетарные пакеты (Google Chrome, AntiGravity, Drivers)
+  nixpkgs.config.allowUnfree = true;
 
   # ══════════════════════════════════════════════════════════════════════════════
   # BOOT — Загрузчик и ядро
@@ -254,6 +256,7 @@
     ntfs3g                # Монтирование Windows NTFS дисков
 
     # ── Hyprland Desktop ─────────────────────────────────────────────────────
+    antigravity-fhs       # Google AntiGravity IDE
     quickshell            # Quickshell (для кастомных конфигов)
     # quickshell          # Removed: managed by noctalia module
     hyprpaper             # Обои рабочего стола
