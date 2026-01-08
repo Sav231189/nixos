@@ -41,7 +41,6 @@ let
     dunst = "dunst";     # Уведомления
     neofetch = "neofetch"; # Инфо о системе
     quickshell = "quickshell"; # Quickshell конфиги
-    quickshell = "quickshell"; # Quickshell конфиги
   };
 
 in
