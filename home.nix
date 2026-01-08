@@ -52,7 +52,11 @@ in
     ./modules/shell.nix      # Zsh, Starship prompt, fzf, zoxide, алиасы
     ./modules/dev.nix        # CLI утилиты
     ./modules/theme.nix      # GTK/Qt темы
+    inputs.noctalia.homeModules.default # Noctalia Shell
   ];
+
+  # Enable Noctalia Shell
+  programs.noctalia-shell.enable = true;
 
   # ══════════════════════════════════════════════════════════════════════════════
   # USER — Настройки пользователя

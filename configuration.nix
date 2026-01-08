@@ -171,6 +171,9 @@
     jack.enable = true;       # JACK для профессионального аудио
   };
 
+  # Upower needed for Noctalia Shell
+  services.upower.enable = true;
+
   # ══════════════════════════════════════════════════════════════════════════════
   # FONTS — Шрифты системы
   # ══════════════════════════════════════════════════════════════════════════════
@@ -251,7 +254,7 @@
     ntfs3g                # Монтирование Windows NTFS дисков
 
     # ── Hyprland Desktop ─────────────────────────────────────────────────────
-    quickshell            # Quickshell
+    # quickshell          # Removed: managed by noctalia module
     waybar                # Верхняя панель
     wofi                  # Лаунчер приложений (Super+D)
     dunst                 # Уведомления
