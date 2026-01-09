@@ -76,4 +76,23 @@
 
   # Blueman — GUI для Bluetooth (иконка в трее)
   services.blueman.enable = true;  # Отключить: enable = false
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # COMPLEMENTARY PACKAGES
+  # ══════════════════════════════════════════════════════════════════════════════
+  environment.systemPackages = with pkgs; [
+    wireguard-tools  # Утилиты для настройки WireGuard (wg)
+  ];
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # VPN — WireGuard
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Настройка через wg-quick.
+  # Конфигурационный файл должен лежать по пути: /etc/wireguard/wg0.conf
+  networking.wg-quick.interfaces = {
+    wg0 = {
+      autostart = true;  # Автозапуск включен
+      configFile = "/etc/wireguard/wg0.conf";
+    };
+  };
 }
