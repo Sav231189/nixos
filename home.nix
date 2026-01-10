@@ -49,6 +49,7 @@ in
     ./modules/shell.nix      # Zsh, Starship prompt, fzf, zoxide, алиасы
     ./modules/dev.nix        # CLI утилиты
     ./modules/theme.nix      # GTK/Qt темы
+    ./modules/apps.nix       # GUI приложения (Telegram, браузеры)
     inputs.noctalia.homeModules.default # Noctalia Shell
   ];
 
@@ -86,16 +87,6 @@ in
 
   # Hyprland включён системно в configuration.nix (programs.hyprland.enable)
   # Конфиги через симлинки: dotfiles/hypr/, dotfiles/kitty/, dotfiles/waybar/
-
-  # ══════════════════════════════════════════════════════════════════════════════
-  # PACKAGES — Пользовательские пакеты
-  # ══════════════════════════════════════════════════════════════════════════════
-  # Терминалы (kitty, alacritty) — в configuration.nix системно
-  home.packages = with pkgs; [
-    # Браузеры
-    firefox
-    chromium
-  ];
 
   # Wofi и Dunst — конфиги в dotfiles/wofi/ и dotfiles/dunst/ (live reload)
 

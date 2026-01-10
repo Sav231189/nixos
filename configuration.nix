@@ -256,7 +256,7 @@
     ntfs3g                # Монтирование Windows NTFS дисков
 
     # ── Hyprland Desktop ─────────────────────────────────────────────────────
-    antigravity-fhs       # Google AntiGravity IDE
+    # antigravity-fhs       # Google AntiGravity IDE (Moved to modules/apps.nix)
     quickshell            # Quickshell (для кастомных конфигов)
     # quickshell          # Removed: managed by noctalia module
     hyprpaper             # Обои рабочего стола
