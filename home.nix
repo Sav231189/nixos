@@ -114,5 +114,6 @@ in
   home.activation.removeXdgDirs = lib.hm.dag.entryAfter ["writeBoundary"] ''
     rm -rf ${config.home.homeDirectory}/Public
     rm -rf ${config.home.homeDirectory}/Templates
+    rm -rf ${config.home.homeDirectory}/Pictures
   '';
 }
