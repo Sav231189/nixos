@@ -90,9 +90,19 @@
   # Настройка через wg-quick.
   # Конфигурационный файл должен лежать по пути: /etc/wireguard/wg0.conf
   networking.wg-quick.interfaces = {
-    wg0 = {
+    ams = {
       autostart = true;  # Автозапуск включен
-      configFile = "/etc/wireguard/wg0.conf";
+      configFile = "/etc/wireguard/ams.conf";
+    };
+
+    home-lab = {
+      autostart = false;
+      configFile = "/etc/wireguard/home-lab.conf";
+    };
+
+    ckb = {
+      autostart = false;
+      configFile = "/etc/wireguard/ckb.conf";
     };
   };
 }
