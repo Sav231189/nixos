@@ -76,7 +76,7 @@
       ".idea/" ".vscode/" "*.swp"
 
       # Node.js
-      "node_modules/" "dist/" "build/"
+      "node_modules/" "dist/" "build/" 
 
       # Секреты
       ".env" ".env.local"
