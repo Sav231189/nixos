@@ -27,7 +27,7 @@
 #   sudo nix-collect-garbage -d                          очистить старые поколения
 #
 # ============================================================================== #
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   # ══════════════════════════════════════════════════════════════════════════════
@@ -81,6 +81,8 @@
     "quiet" "splash" "mitigations=auto"
     # Стабильность WiFi (Intel iwlwifi) — отключить если НЕ Intel WiFi
     "iwlwifi.power_save=0" "iwlwifi.uapsd_disable=1" "iwlmvm.power_scheme=1"
+    # Intel Alder Lake — для Niri и других Wayland композиторов
+    "i915.force_probe=46a6"
   ];
 
   # Plymouth — графическая заставка при загрузке
@@ -112,6 +114,13 @@
   # Файловый менеджер
   services.gvfs.enable = true;     # GVFS — нужен для Nautilus (корзина, монтирование)
   services.udisks2.enable = true;  # UDisks2 — автомонтирование USB
+
+  # Автоматическая очистка dirty флага на NTFS дисках при подключении
+  # Решает проблему "volume is dirty and force flag is not set"
+  services.udev.extraRules = ''
+    # При подключении NTFS устройства — автоматически очистить dirty флаг
+    ACTION=="add", SUBSYSTEM=="block", ENV{ID_FS_TYPE}=="ntfs", RUN+="${pkgs.ntfs3g}/bin/ntfsfix --clear-dirty $devnode"
+  '';
 
   # ══════════════════════════════════════════════════════════════════════════════
   # DESKTOP — Wayland окружение
@@ -254,6 +263,7 @@
     # ── Файловые системы ─────────────────────────────────────────────────────
     btrfs-progs           # Утилиты BTRFS
     ntfs3g                # Монтирование Windows NTFS дисков
+    exfatprogs            # Монтирование exFAT дисков (внешние SSD, флешки)
 
     # ── Hyprland Desktop ─────────────────────────────────────────────────────
     # antigravity-fhs       # Google AntiGravity IDE (Moved to modules/apps.nix)

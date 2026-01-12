@@ -87,22 +87,9 @@
   # ══════════════════════════════════════════════════════════════════════════════
   # VPN — WireGuard
   # ══════════════════════════════════════════════════════════════════════════════
-  # Настройка через wg-quick.
-  # Конфигурационный файл должен лежать по пути: /etc/wireguard/wg0.conf
-  networking.wg-quick.interfaces = {
-    ams = {
-      autostart = true;  # Автозапуск включен
-      configFile = "/etc/wireguard/ams.conf";
-    };
-
-    home-lab = {
-      autostart = false;
-      configFile = "/etc/wireguard/home-lab.conf";
-    };
-
-    ckb = {
-      autostart = false;
-      configFile = "/etc/wireguard/ckb.conf";
-    };
-  };
+  # Теперь управляется через NetworkManager (GUI).
+  # Для добавления конфигов используйте:
+  # sudo nmcli connection import type wireguard file /etc/wireguard/ams.conf
+  # sudo nmcli connection import type wireguard file /etc/wireguard/home-lab.conf
+  # sudo nmcli connection import type wireguard file /etc/wireguard/ckb.conf
 }
