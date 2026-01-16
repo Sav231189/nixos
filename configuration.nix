@@ -130,23 +130,42 @@
     NIXOS_OZONE_WL = "1";            # Electron приложения через Wayland
     MOZ_ENABLE_WAYLAND = "1";        # Firefox через Wayland
     QT_QPA_PLATFORM = "wayland";     # Qt приложения через Wayland
-    XDG_SESSION_TYPE = "wayland";
-    XDG_CURRENT_DESKTOP = "Hyprland";
   };
 
   # Hyprland — тайловый Wayland композитор
   programs.hyprland = {
-    enable = true;          # Отключить: enable = false
-    xwayland.enable = true; # Поддержка X11 приложений
+     enable = true;
+     xwayland.enable = true;
   };
+
+  # Display Manager (SDDM)
+  # Переходим на Greetd (современный)
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+    theme = "sddm-astronaut-theme";
+    extraPackages = with pkgs.kdePackages; [
+      qtmultimedia
+      qtsvg
+      qtquick3d
+      qtvirtualkeyboard
+    ];
+    autoNumlock = true;
+  };
+
+  # Niri — скроллящийся Wayland композитор
+  programs.niri.enable = true;
 
   # XDG Portal — диалоги открытия файлов, скриншоты
   xdg.portal = {
     enable = true;
     extraPortals = [
+      pkgs.xdg-desktop-portal-gnome     # Portal для Niri
       pkgs.xdg-desktop-portal-hyprland  # Portal для Hyprland
       pkgs.xdg-desktop-portal-gtk       # GTK fallback
     ];
+    config.common.default = "gnome";
+    config.hyprland.default = "hyprland";
   };
 
   # Polkit — окна авторизации sudo
@@ -267,8 +286,7 @@
 
     # ── Hyprland Desktop ─────────────────────────────────────────────────────
     # antigravity-fhs       # Google AntiGravity IDE (Moved to modules/apps.nix)
-    quickshell            # Quickshell (для кастомных конфигов)
-    # quickshell          # Removed: managed by noctalia module
+    quickshell            # Quickshell 
     hyprpaper             # Обои рабочего стола
     hyprlock              # Экран блокировки
     hypridle              # Автоблокировка при бездействии
@@ -293,5 +311,10 @@
     # ── Файловый менеджер ────────────────────────────────────────────────────
     nautilus              # GNOME Files
     polkit_gnome          # Окна авторизации
+    sddm-astronaut        # Тема Astronaut для SDDM
+    kdePackages.qtmultimedia
+    kdePackages.qtsvg
+    kdePackages.qtquick3d
+    kdePackages.qtvirtualkeyboard
   ];
 }

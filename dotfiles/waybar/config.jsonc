@@ -1,71 +1,49 @@
 // -*- mode: jsonc -*-
 {
-    "layer": "top", 
-    "position": "top", 
-    "height": 30, 
-    "spacing": 4, 
-
-    // Choose the order of the modules
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 4,
     "modules-left": [
-        "hyprland/workspaces",
-        "custom/sep",
-        "hyprland/window",
-        "custom/sep"
+        "niri/workspaces",
+        "niri/window"
     ],
     "modules-center": [
+        "clock"
     ],
-
     "modules-right": [
-        "custom/sep",
         "network",
-        "custom/sep",
         "cpu",
-        "custom/sep",
         "memory",
-        "custom/sep",
-        "disk",
-        "custom/sep",
-        "clock",
-        "custom/sep",
+        "battery",
         "tray"
     ],
-
-    // Modules configuration
-    "hyprland/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": true,
-        "warp-on-scroll": false,
-        "format": "{name}",
-        "persistent-workspaces": {
-            "*" : 9
+    "niri/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "active": "",
+            "default": ""
         }
     },
-    "hyprland/window" : {
-        "max-length": 40,
-        "seperate-outputs": false
-    },
-    "tray": {
-        // "icon-size": 21,
-        "spacing": 10
-        // "icons": {
-        //   "blueman": "bluetooth",
-        //   "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
-        // }
+    "niri/window": {
+        "format": "{title}",
+        "max-length": 40
     },
     "clock": {
-        "format-alt": "{:%Y-%m-%d}"
+        "format": "{:%H:%M  %Y-%m-%d}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
     "cpu": {
-        "format": "CPU: {usage}%",
+        "format": "CPU {usage}%",
         "tooltip": false
     },
     "memory": {
-        "format": "Mem: {used}GiB"
+        "format": "RAM {used:0.1f}G"
     },
-    "disk": {
-        "interval": 60,
-        "path": "/",
-        "format": "Disk: {free}"
+    "network": {
+        "format-wifi": "  {essid}",
+        "format-ethernet": " ",
+        "format-disconnected": "⚠ "
     },
     "battery": {
         "states": {
@@ -73,18 +51,16 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "Bat: {capacity}% {icon} {time}",
-        "format-plugged": "{capacity}% ",
-        "format-alt": "Bat {capacity}%",
-        "format-time": "{H}:{M}",
-        "format-icons": ["", "", "", "", ""]
+        "format": "{icon} {capacity}%",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
     },
-    "network": {
-        "format": "Online",
-        "format-disconnected": "Disconnected ⚠"
-    },
-    "custom/sep": {
-        "format" : "|",
-        "interval" : 0
+    "tray": {
+        "spacing": 10
     }
 }

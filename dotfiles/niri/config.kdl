@@ -1,0 +1,114 @@
+// Niri Configuration File
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Overview
+
+input {
+    keyboard {
+        xkb {
+            layout "us,ru"
+            options "grp:alt_shift_toggle"
+        }
+    }
+
+    touchpad {
+        tap
+        natural-scroll
+        accel-speed 0.2
+    }
+
+    mouse {
+        accel-speed 0.2
+    }
+}
+
+output "eDP-1" {
+    mode "3120x2080"
+    scale 1.5
+    transform "normal"
+    position x=0 y=0
+}
+
+layout {
+    gaps 16
+    center-focused-column "never"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    default-column-width { proportion 0.5; }
+
+    focus-ring {
+        width 4
+        active-color "#7fc8ff"
+        inactive-color "#505050"
+    }
+}
+
+spawn-at-startup "xwayland-satellite"
+spawn-at-startup "swww-daemon"
+spawn-at-startup "noctalia-shell"
+
+binds {
+    // Keys
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    // Apps
+    Mod+Return { spawn "kitty"; }
+    Mod+D { spawn "noctalia-shell" "ipc" "call" "launcher" "toggle"; }
+    Mod+B { spawn "chromium"; }
+
+    // Actions
+    Mod+Q { close-window; }
+    Mod+Shift+E { quit; }
+    
+    // Window Management
+    Mod+Left  { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Down  { focus-workspace-down; }
+    Mod+Up    { focus-workspace-up; }
+
+    // Workspaces
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+
+    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+Down  { move-column-to-workspace-down; }
+    Mod+Shift+Up    { move-column-to-workspace-up; }
+
+    Mod+C { center-column; }
+
+    // Size
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+M { maximize-column; }
+    Mod+Shift+M { fullscreen-window; }
+    Mod+R { switch-preset-column-width; }
+
+    // Column Management (Stacking Windows Vertically)
+    // Объединить окно с соседним (Mod + <) или вытолкнуть (Mod + >)
+    Mod+Comma  { consume-window-into-column; }
+    Mod+Period { expel-window-from-column; }
+
+    // Media & Brightness
+    XF86AudioRaiseVolume { spawn "pamixer" "-i" "5"; }
+    XF86AudioLowerVolume { spawn "pamixer" "-d" "5"; }
+    XF86AudioMute { spawn "pamixer" "-t"; }
+    XF86MonBrightnessUp { spawn "brightnessctl" "s" "+5%"; }
+    XF86MonBrightnessDown { spawn "brightnessctl" "s" "5%-"; }
+    XF86AudioPlay { spawn "playerctl" "play-pause"; }
+
+    // Screenshot
+    Print { spawn "sh" "-c" "grim -g \"$(slurp)\" - | swappy -f -"; }
+    Shift+Print { spawn "sh" "-c" "grim - | swappy -f -"; }
+}
+include "./noctalia.kdl"

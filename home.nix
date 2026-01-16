@@ -38,6 +38,7 @@ let
     kitty = "kitty";     # Терминал
     neofetch = "neofetch"; # Инфо о системе
     quickshell = "quickshell"; # Quickshell конфиги
+    niri = "niri";       # Niri конфиг
   };
 
 in
@@ -53,8 +54,11 @@ in
     inputs.noctalia.homeModules.default # Noctalia Shell
   ];
 
-  # Enable Noctalia Shell
+  # Enable import Noctalia Shell
   programs.noctalia-shell.enable = true;
+
+  # Enable import Home Manager
+  programs.home-manager.enable = true;
 
   # ══════════════════════════════════════════════════════════════════════════════
   # USER — Настройки пользователя
@@ -62,8 +66,6 @@ in
   home.username = "alxr";
   home.homeDirectory = "/home/alxr";
   home.stateVersion = "25.05";
-
-  programs.home-manager.enable = true;
 
   # ══════════════════════════════════════════════════════════════════════════════
   # ENVIRONMENT — Переменные окружения
@@ -84,11 +86,6 @@ in
       recursive = true;
     })
     dotfiles;
-
-  # Hyprland включён системно в configuration.nix (programs.hyprland.enable)
-  # Конфиги через симлинки: dotfiles/hypr/, dotfiles/kitty/, dotfiles/waybar/
-
-  # Wofi и Dunst — конфиги в dotfiles/wofi/ и dotfiles/dunst/ (live reload)
 
   # ══════════════════════════════════════════════════════════════════════════════
   # XDG — Стандартные директории
