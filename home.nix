@@ -39,6 +39,7 @@ let
     neofetch = "neofetch"; # Инфо о системе
     quickshell = "quickshell"; # Quickshell конфиги
     niri = "niri";       # Niri конфиг
+    zed = "zed";         # Zed Editor
   };
 
 in

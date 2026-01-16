@@ -1,0 +1,48 @@
+{
+  // ─────────────────────────────────────────────────────────────────────────────
+  //   Zed Editor — Настройки
+  //   Файл: ~/nixos/dotfiles/zed/settings.json
+  //   Симлинк: ~/.config/zed/settings.json
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  // ── Тема и внешний вид ───────────────────────────────────────────────────────
+  "edit_predictions": {
+    "mode": "eager"
+  },
+  "icon_theme": "Zed (Default)",
+  "session": {
+    "trust_all_worktrees": true,
+  },
+  "vim_mode": false,
+  "theme": "Gruvbox Dark",
+  "ui_font_family": "Inter",
+  "ui_font_size": 15,
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_size": 14,
+  "buffer_line_height": "comfortable",
+
+  // ── Редактор ─────────────────────────────────────────────────────────────────
+  "cursor_blink": true,
+  "show_whitespaces": "selection",
+  "tab_size": 2,
+  "soft_wrap": "editor_width",
+  "format_on_save": "on",
+  "autosave": "on_focus_change",
+
+  // ── Панели ───────────────────────────────────────────────────────────────────
+  "project_panel": {
+    "dock": "left",
+    "default_width": 240,
+  },
+  "terminal": {
+    "font_family": "JetBrainsMono Nerd Font",
+    "font_size": 13,
+    "shell": "system",
+  },
+
+  // ── Telemetry ────────────────────────────────────────────────────────────────
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+}
