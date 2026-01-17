@@ -32,14 +32,19 @@ let
   dotfilesPath = "${config.home.homeDirectory}/nixos/dotfiles";
   mkSymlink = path: config.lib.file.mkOutOfStoreSymlink path;
 
-  # Конфиги через симлинки (live reload без rebuild)
-  dotfiles = {
-    hypr = "hypr";       # Hyprland
-    kitty = "kitty";     # Терминал
-    neofetch = "neofetch"; # Инфо о системе
-    quickshell = "quickshell"; # Quickshell конфиги
-    niri = "niri";       # Niri конфиг
-    zed = "zed";         # Zed Editor
+  # Директории — симлинкаются целиком (recursive)
+  dotfileDirs = {
+    hypr = "hypr";             # Hyprland
+    kitty = "kitty";           # Терминал
+    neofetch = "neofetch";     # Инфо о системе
+    quickshell = "quickshell"; # Quickshell
+    niri = "niri";             # Niri
+    zed = "zed";               # Zed Editor
+  };
+
+  # Отдельные файлы — когда приложению нужна записываемая директория
+  dotfileFiles = {
+    "opencode/opencode.json" = "opencode/opencode.json";  # OpenCode (плагины пишут в ~/.config/opencode/)
   };
 
 in
@@ -81,12 +86,17 @@ in
   # ══════════════════════════════════════════════════════════════════════════════
   # DOTFILES — Симлинки (для live reload)
   # ══════════════════════════════════════════════════════════════════════════════
-  xdg.configFile = builtins.mapAttrs
-    (name: subpath: {
+  xdg.configFile =
+    # Директории (recursive symlinks)
+    builtins.mapAttrs (name: subpath: {
       source = mkSymlink "${dotfilesPath}/${subpath}";
       recursive = true;
-    })
-    dotfiles;
+    }) dotfileDirs
+    //
+    # Отдельные файлы
+    builtins.mapAttrs (_: subpath: {
+      source = mkSymlink "${dotfilesPath}/${subpath}";
+    }) dotfileFiles;
 
   # ══════════════════════════════════════════════════════════════════════════════
   # XDG — Стандартные директории

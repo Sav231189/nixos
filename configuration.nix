@@ -38,6 +38,7 @@
     ./hardware-configuration.nix    # Автогенерированный (диски, LUKS) — НЕ ТРОГАТЬ
     ./modules/hardware-matebook.nix # Intel GPU, управление питанием, тачпад
     ./modules/network.nix           # WiFi, Bluetooth, firewall
+    ./modules/nix-ld.nix            # Запуск pre-compiled бинарников (Zed LSP, etc.)
   ];
 
   # ══════════════════════════════════════════════════════════════════════════════
